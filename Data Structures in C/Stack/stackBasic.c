@@ -1,6 +1,14 @@
 // Stack is a linear data structure which follows a particular order in
 // which the operations are performed. The order may be LIFO(Last In First Out) or FILO(First In Last Out).
+
 // The operations of a stack contains push,pop,read only.
+
+// It also containes other operations like isEmpty(), isFull(), peek()
+// which I already added inside of the methods of the stack. So, I dont need to create them again.
+// If i want to then I have to change the instance of the methods of the functions too.
+// So, I am not doing it here. I will do it in Queue Data Structure.
+// So, I can get the idea of the stack from the Queue 
+
 // The data type of the stack is based on the user which type of value did he want ti insert
 // in the stack.
 
@@ -13,6 +21,8 @@
 // Pop:
 // Removing an element from the last of the array (Stack).
 
+// Read or Traverse:
+// It prints the whole stack
 // Here I am creating a 1D stack only.
 #include <stdio.h>
 #define max 100
