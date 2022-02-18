@@ -225,7 +225,7 @@ void SearchingOfElement(int stack[])
     }
 }
 
-void TraversingWholetack(int stack[])
+void TraversingWholeStack(int stack[])
 {
     if (top != -1)
     {
@@ -243,7 +243,7 @@ void TraversingWholetack(int stack[])
     }
 }
 
-void TraversingWholetackWithIndex(int stack[])
+void TraversingWholeStackWithIndex(int stack[])
 {
     if (top != -1)
     {
@@ -382,11 +382,11 @@ int main()
                 break;
 
             case 3:
-                TraversingWholetack(stack);
+                TraversingWholeStack(stack);
                 break;
 
             case 4:
-                TraversingWholetackWithIndex(stack);
+                TraversingWholeStackWithIndex(stack);
                 break;
 
             case 5:
