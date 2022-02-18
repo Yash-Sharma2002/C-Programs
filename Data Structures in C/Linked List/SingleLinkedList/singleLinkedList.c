@@ -1,5 +1,26 @@
 // I have listed all functions that can be done in a linked list
-// I reffered whole list as stack because i re-used the code many time so i don't need to change it anymore
+// I reffered whole name list as stack because i re-used the code many time so i don't need to change it anymore
+
+// The  operations I added with these programs
+// Insertion :
+// Insert at First.
+// Insert at End.
+// Insert at Position.
+
+// Deletion:
+// Delete at First.
+// Delete at End.
+// Delete at Position.
+
+// Reading or Traversing:
+// Display of a particular element.
+// Searching in the stack.
+// Knowing the position (index) of the given element.
+// Printing the whole stack.
+// Printing the whole stack with indexes.
+
+// Updation:
+// Updating the Value of the element.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -101,9 +122,16 @@ void DeleteAtFirst(struct node **stack)
 
 void DeleteAtPos(struct node **stack)
 {
+    temp = *stack;
     if (isEmpty(*stack))
     {
         printf("\nList is empty.\nTry again after inserting an element.\n");
+    }
+    else if (temp->next == NULL)
+    {
+        printf("There is only one element in the list.\nDeleting it....\n");
+        temp = *stack;
+        *stack = temp->next;
     }
     else
     {
@@ -111,7 +139,6 @@ void DeleteAtPos(struct node **stack)
         printf("Enter the position: ");
         scanf("%d", &pos);
         i = 1;
-        temp = *stack;
         while (i != pos)
         {
             temp_prev = temp;
@@ -126,13 +153,18 @@ void DeleteAtPos(struct node **stack)
 
 void DeleteAtEnd(struct node **stack)
 {
+    temp = *stack;
     if (isEmpty(*stack))
     {
         printf("\nList is empty.\nTry again after inserting an element.\n");
     }
-    else
+    else if (temp->next == NULL)
     {
         temp = *stack;
+        *stack = temp->next;
+    }
+    else
+    {
         while (temp->next != NULL)
         {
             temp_prev = temp;
@@ -170,6 +202,13 @@ void UpdateInStack(struct node **stack)
 }
 
 // ------------------Reading Operations--------------------
+
+// In these operations, in while loop don't do
+// while(stack->next!=NUll)
+// Doing this you will miss the last element of the list
+// Instead do
+// while(stack!=NULL)
+
 void PrintAtIndex(struct node *stack)
 {
     if (!isEmpty(stack))
@@ -207,14 +246,14 @@ void SearchingOfElement(struct node *stack)
         printf("\nEnter the element: ");
         scanf("%d", &element);
 
-        while (stack->next != NULL)
+        while (stack != NULL)
         {
             if (element == stack->data)
             {
                 flag = 1;
                 break;
             }
-            temp = temp->next;
+            stack = stack->next;
         }
 
         if (flag == 1)
@@ -256,7 +295,7 @@ void TraversingWholeStackWithIndex(struct node *stack)
     {
         printf("The elements in the Stack with Indexes are: \n\n");
         printf("Element -- ");
-        int j= 0;
+        int j = 0;
         while (stack != NULL)
         {
             printf(" %d\t", stack->data);
@@ -286,14 +325,14 @@ void SearchingOfElementWithPrintingIndex(struct node *stack)
         printf("\nEnter the element: ");
         scanf("%d", &element);
         i = 0;
-        while (stack->next != NULL)
+        while (stack != NULL)
         {
             if (element == stack->data)
             {
                 flag = 1;
                 break;
             }
-            temp = temp->next;
+            stack = stack->next;
             i++;
         }
 
