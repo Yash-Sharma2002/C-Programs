@@ -1,5 +1,7 @@
-// I have listed all functions that can be done in a doubly linked list
-// I reffered whole list name as stack because i re-used the code many time so i don't need to change it anymore
+// I have listed all functions that can be done in a Circular linked list
+// I reffered whole list name as stack because i re-used the code many time so i don't need to change it anymore.
+// It is a linked list that contains functions of doubly linked list but also is circular and all
+// the elements are connectde to each other. There is no element that contains NULL value.
 
 // The  operations I added with these programs
 // Insertion :
@@ -28,7 +30,6 @@
 // Updating the Value of the element from start.
 // Updating the Value of the element from End.
 
-
 // Note (Things I am unable to achieve in the program)
 // delete with position programs can only delete elements in the middle not the first or last element
 #include <stdio.h>
@@ -37,9 +38,11 @@ struct node
 {
     struct node *prev;
     int data;
+    // int index;
     struct node *next;
 };
 struct node *newNode, *temp_prev, *temp, *temp_next;
+int top = 0;
 
 int isEmpty(struct node *stack)
 {
@@ -51,6 +54,7 @@ int isEmpty(struct node *stack)
 }
 void EnterElement()
 {
+    top += 1;
     int element;
     printf("\nEnter the element: ");
     scanf("%d", &element);
@@ -58,6 +62,44 @@ void EnterElement()
 
     newNode->data = element;
 }
+
+// This function will go to the last of the list for purpose of giving last element connected with the first
+void GoToLastForInsert(struct node **stack)
+{
+    int i = 1;
+    temp = *stack;
+    while (i != top - 1)
+    {
+        temp = temp->next;
+        i++;
+    }
+}
+
+void GoToLastForDelete(struct node **stack)
+{
+    int i = 1;
+    temp = *stack;
+    while (i != top)
+    {
+        temp = temp->next;
+        i++;
+    }
+}
+
+// TODO: make index of each element incresing so they can be printed with any order
+// At first i store the index of every element as 1 but when i try to insert any element after that, then the index of each
+// element is setting as i want so this function in here to set the index for it but I am not doing here. I left it for future or the
+// programmers who see my code. It is half correct by the way.
+// void StackIndexCorrector(struct node **stack){
+//     int i=0;
+//     temp=*stack;
+//     while(i!=top){
+//         temp->index=++i;
+//         temp=temp->next;
+//         i++;
+//     }
+
+// }
 
 // -----------------Insert Functions------------
 void InsertAtFirst(struct node **stack)
@@ -73,6 +115,11 @@ void InsertAtFirst(struct node **stack)
     }
     newNode->next = temp;
     temp->prev = newNode;
+
+    GoToLastForInsert(&temp);
+
+    newNode->prev = temp;
+    temp->next = newNode;
     *stack = newNode;
 }
 
@@ -82,18 +129,15 @@ void InsertAtEnd(struct node **stack)
     temp = *stack;
     newNode->next = NULL;
     newNode->prev = NULL;
-
     if (isEmpty(temp))
     {
         *stack = newNode;
         return;
     }
-    while (temp->next != NULL)
-    {
-        temp = temp->next;
-    }
+    GoToLastForInsert(&temp);
     temp->next = newNode;
     newNode->prev = temp;
+    newNode->next = *stack;
 }
 
 void InsertAtPosFromStart(struct node **stack)
@@ -111,6 +155,7 @@ void InsertAtPosFromStart(struct node **stack)
     int pos, i;
     printf("Enter the position: ");
     scanf("%d", &pos);
+
     i = 1;
     while (i != pos)
     {
@@ -139,16 +184,15 @@ void InsertAtPosFromEnd(struct node **stack)
     int pos, i;
     printf("Enter the position: ");
     scanf("%d", &pos);
-    while (temp->next != NULL)
-    {
-        temp = temp->next;
-    }
-    i = 1;
+
+    GoToLastForInsert(&temp);
+    i = top;
+    printf("%d ", temp->data);
     while (i != pos)
     {
         temp_prev = temp;
         temp = temp->prev;
-        i++;
+        i--;
     }
     temp_prev->prev = newNode;
     temp->next = newNode;
@@ -164,15 +208,22 @@ void DeleteAtFirst(struct node **stack)
     {
         printf("\nList is empty.\nTry again after inserting an element.\n");
     }
-    else if (temp->next == NULL)
+    else if (top == 1)
     {
         printf("There is only one element in the list.\nDeleting it....\n");
         *stack = NULL;
+        top -= 1;
     }
     else
     {
-        temp = *stack;
+        temp_prev = *stack;
         *stack = temp->next;
+
+        GoToLastForDelete(&temp);
+
+        temp->next = *stack;
+        temp_prev->prev = temp;
+        top -= 1;
     }
 }
 
@@ -183,10 +234,11 @@ void DeleteAtPosFromStart(struct node **stack)
     {
         printf("\nList is empty.\nTry again after inserting an element.\n");
     }
-    else if (temp->next == NULL)
+    else if (top == 1)
     {
         printf("There is only one element in the list.\nDeleting it....\n");
         *stack = NULL;
+        top -= 1;
     }
     else
     {
@@ -204,6 +256,7 @@ void DeleteAtPosFromStart(struct node **stack)
         temp_prev->next = temp_next;
         temp_next->prev = temp_prev;
         temp = NULL;
+        top -= 1;
     }
 }
 
@@ -214,20 +267,20 @@ void DeleteAtPosFromEnd(struct node **stack)
     {
         printf("\nList is empty.\nTry again after inserting an element.\n");
     }
-    else if (temp->next == NULL)
+    else if (top == 1)
     {
         printf("There is only one element in the list.\nDeleting it....\n");
         *stack = NULL;
+        top -= 1;
     }
     else
     {
         int pos, i;
         printf("Enter the position: ");
         scanf("%d", &pos);
-        while (temp->next != NULL)
-        {
-            temp = temp->next;
-        }
+
+        GoToLastForDelete(&temp);
+
         i = 1;
         while (i != pos)
         {
@@ -239,30 +292,36 @@ void DeleteAtPosFromEnd(struct node **stack)
         temp_prev->prev = temp_next;
         temp_next->next = temp_prev;
         temp = NULL;
+        top -= 1;
     }
 }
 
 void DeleteAtEnd(struct node **stack)
 {
     temp = *stack;
+    temp_next = *stack;
     if (isEmpty(*stack))
     {
         printf("\nList is empty.\nTry again after inserting an element.\n");
     }
-    else if (temp->next == NULL)
+    else if (top == 1)
     {
         printf("There is only one element in the list.\nDeleting it....\n");
         *stack = NULL;
+        top -= 1;
     }
     else
     {
-        while (temp->next != NULL)
+        int i = 1;
+        while (i != top)
         {
             temp_prev = temp;
             temp = temp->next;
+            i++;
         }
-        temp_prev->next = NULL;
-        temp = NULL;
+        temp_prev->next = temp_next;
+        temp_next->prev = temp_prev;
+        top -= 1;
     }
 }
 
@@ -307,16 +366,13 @@ void UpdateInStackFromEnd(struct node **stack)
         printf("\nEnter the New Value: ");
         scanf("%d", &newValue);
 
-        while (temp->next != NULL)
-        {
-            temp = temp->next;
-        }
+        GoToLastForDelete(&temp);
 
-        i = 1;
+        i = top;
         while (i != pos)
         {
             temp = temp->prev;
-            i++;
+            i--;
         }
         temp->data = newValue;
     }
@@ -361,10 +417,7 @@ void PrintAtIndexFromEnd(struct node *stack)
 
         printf("The element you are looking for is: \n");
 
-        while (stack->next != NULL)
-        {
-            stack = stack->next;
-        }
+        GoToLastForDelete(&stack);
 
         i = 1;
         while (i != pos)
@@ -387,12 +440,12 @@ void SearchingOfElementFromStart(struct node *stack)
     // This function return true or false if the element is present in the stack or not
     if (!isEmpty(stack))
     {
-        int element, flag = 0;
+        int element, flag = 0, i = 0;
 
         printf("\nEnter the element: ");
         scanf("%d", &element);
 
-        while (stack != NULL)
+        while (i != top)
         {
             if (element == stack->data)
             {
@@ -400,6 +453,7 @@ void SearchingOfElementFromStart(struct node *stack)
                 break;
             }
             stack = stack->next;
+            i++;
         }
 
         if (flag == 1)
@@ -427,12 +481,9 @@ void SearchingOfElementFromEnd(struct node *stack)
         printf("\nEnter the element: ");
         scanf("%d", &element);
 
-        while (stack->next != NULL)
-        {
-            stack = stack->next;
-        }
-
-        while (stack != NULL)
+        GoToLastForDelete(&stack);
+        int i = 0;
+        while (i != top)
         {
             if (element == stack->data)
             {
@@ -440,6 +491,7 @@ void SearchingOfElementFromEnd(struct node *stack)
                 break;
             }
             stack = stack->prev;
+            i++;
         }
 
         if (flag == 1)
@@ -465,19 +517,27 @@ void TraversingWholeStack(struct node *stack)
     }
     else
     {
-
+        if (top < 0)
+        {
+            printf("List is Empty.\nTry inserting an element.\n\n");
+            return;
+        }
         printf("\nThe elements are : \n");
-        while (stack != NULL)
+        int i = 1;
+        while (i != top + 1)
         {
             printf(" %d ", stack->data);
             temp = stack;
             stack = stack->next;
+            i++;
         }
         printf("\nThe elements from before : \n");
-        while (temp != NULL)
+        i = top;
+        while (i > 0)
         {
             printf(" %d ", temp->data);
             temp = temp->prev;
+            i--;
         }
     }
 }
@@ -488,32 +548,34 @@ void TraversingWholeStackWithIndex(struct node *stack)
     {
         printf("The elements in the Stack with Indexes from Start are: \n\n");
         printf("Element -- ");
-        int j = 0;
-        while (stack != NULL)
+        int i = 1;
+        while (i != top + 1)
         {
             printf(" %d\t", stack->data);
             temp = stack;
             stack = stack->next;
-            j++;
+            i++;
         }
         printf("\nIndexes -- ");
-        for (int i = 0; i < j; i++)
+        for (int j = 0; j < i - 1; j++)
         {
-            printf(" %d\t", i + 1);
+            printf(" %d\t", j + 1);
         }
         printf("\n");
 
         printf("The elements in the Stack with Indexes from End are: \n\n");
         printf("Element -- ");
-        while (temp != NULL)
+        int j = 0;
+        while (j != i - 1)
         {
             printf(" %d\t", temp->data);
             temp = temp->prev;
+            j++;
         }
         printf("\nIndexes -- ");
-        for (int i = j - 1; i >= 0; i--)
+        for (int k = j - 1; k >= 0; k--)
         {
-            printf(" %d\t", i + 1);
+            printf(" %d\t", k + 1);
         }
         printf("\n");
     }
@@ -533,7 +595,7 @@ void SearchingOfElementWithPrintingIndexFromStart(struct node *stack)
         printf("\nEnter the element: ");
         scanf("%d", &element);
         i = 0;
-        while (stack != NULL)
+        while (i != top)
         {
             if (element == stack->data)
             {
@@ -564,31 +626,34 @@ void SearchingOfElementWithPrintingIndexFromEnd(struct node *stack)
     // This function fails when there containing iterative elements.
     if (!isEmpty(stack))
     {
-        int element, flag = 0, i;
+        int element, flag = 0, i, j;
 
         printf("\nEnter the element: ");
         scanf("%d", &element);
 
-        while (stack->next != NULL)
+        i = 1;
+        while (i != top + 1)
         {
+            temp = stack;
             stack = stack->next;
+            i++;
         }
 
-        i = 0;
-        while (stack != NULL)
+        j = 0;
+        while (j != top)
         {
-            if (element == stack->data)
+            if (element == temp->data)
             {
                 flag = 1;
                 break;
             }
-            stack = stack->prev;
-            i++;
+            temp = temp->prev;
+            j++;
         }
 
         if (flag == 1)
         {
-            printf(" Yes, the element is present in the Stack at index - %d \n", i + 1);
+            printf(" Yes, the element is present in the Stack at index - %d \n", j + 1);
         }
         else
         {

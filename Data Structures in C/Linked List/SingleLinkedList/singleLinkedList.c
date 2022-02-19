@@ -113,6 +113,11 @@ void DeleteAtFirst(struct node **stack)
     {
         printf("\nList is empty.\nTry again after inserting an element.\n");
     }
+    else if (temp->next == NULL)
+    {
+        printf("There is only one element in the list.\nDeleting it....\n");
+        *stack = NULL;
+    }
     else
     {
         temp = *stack;
@@ -130,8 +135,7 @@ void DeleteAtPos(struct node **stack)
     else if (temp->next == NULL)
     {
         printf("There is only one element in the list.\nDeleting it....\n");
-        temp = *stack;
-        *stack = temp->next;
+        *stack = NULL;
     }
     else
     {
@@ -160,8 +164,8 @@ void DeleteAtEnd(struct node **stack)
     }
     else if (temp->next == NULL)
     {
-        temp = *stack;
-        *stack = temp->next;
+        printf("There is only one element in the list.\nDeleting it....\n");
+        *stack = NULL;
     }
     else
     {
