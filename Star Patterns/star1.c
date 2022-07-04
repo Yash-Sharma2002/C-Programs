@@ -38,7 +38,7 @@ int main()
 
     printf("Enter the number of rows: ");
     scanf("%d", &num);
-    printf("Enter the number of rows: ");
+    printf("Enter the number of stars at staring: ");
     scanf("%d", &leap);
 
     printf("\n");
