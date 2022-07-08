@@ -6,11 +6,11 @@ void main()
     scanf("%d", &num);
     for (i = 0; i <= num; i++)
     {
-        int cr = 64;
+        int _counter = 1;
         for (j = 0; j <= num; j++)
         {
-            if (!(i + j < num))
-                printf("%c", ++cr);
+            if (i <= j + num / 2 && i + j <= num + num / 2 && i + num / 2 >= j && i + j >= num / 2)
+                printf("%d", _counter++);
             else
                 printf(" ");
         }

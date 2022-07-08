@@ -6,11 +6,10 @@ void main()
     scanf("%d", &num);
     for (i = 0; i <= num; i++)
     {
-        int cr = 64;
         for (j = 0; j <= num; j++)
         {
             if (!(i + j < num))
-                printf("%c", ++cr);
+                printf("%d", num-j+1);
             else
                 printf(" ");
         }

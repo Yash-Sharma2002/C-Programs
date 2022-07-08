@@ -4,13 +4,12 @@ void main()
     int num, i, j;
     printf("Enter the number of rows:");
     scanf("%d", &num);
-    for (i = 0; i <= num; i++)
+    for (i = 0; i <= num / 2; i++)
     {
-        int cr = 64;
         for (j = 0; j <= num; j++)
         {
-            if (!(i + j < num))
-                printf("%c", ++cr);
+            if (i + j >= num / 2 && i + num / 2 >= j)
+                printf("%d", i+1);
             else
                 printf(" ");
         }

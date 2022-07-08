@@ -9,7 +9,7 @@ void main()
         int cr = 64;
         for (j = 0; j <= num; j++)
         {
-            if (!(i + j < num))
+            if (i <= j && i + j >= num)
                 printf("%c", ++cr);
             else
                 printf(" ");
