@@ -15,7 +15,7 @@ void main()
             }
             for (int j = 0; j <= num; j++)
             {
-                if (i == 0 || j == num && !(i==j) && !(i+j==num))
+                if (i == 0  && j<num || j == num && !(i==j) && !(i+j==num))
                     printf("*");
                 else
                     printf(" ");
