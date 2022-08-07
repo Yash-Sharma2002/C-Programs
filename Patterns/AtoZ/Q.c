@@ -8,7 +8,7 @@ void main()
     {
         for (int j = 0; j <= num+2; j++)
         {
-            if (j == 0 && i > 0 && i < num || i == 0 && j > 0 && j < num || i == num && j > 0 && j < num || j == num && i > 0 && i < num || i==j && i>num/2 && i<num+2)
+            if ((i==0 || j==0 || i==num||j==num)&& !(i==j || i+j==num) && i<=num && j<=num  || i==j && i>num/2)
                 printf("*");
             else
                 printf(" ");
